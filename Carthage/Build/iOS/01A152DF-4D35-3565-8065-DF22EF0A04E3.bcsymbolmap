@@ -1,0 +1,92 @@
+BCSymbolMap Version: 2.0
+-[CHTCollectionViewWaterfallLayout setColumnCount:]
+-[CHTCollectionViewWaterfallLayout setMinimumColumnSpacing:]
+-[CHTCollectionViewWaterfallLayout setMinimumInteritemSpacing:]
+-[CHTCollectionViewWaterfallLayout setHeaderHeight:]
+-[CHTCollectionViewWaterfallLayout setFooterHeight:]
+-[CHTCollectionViewWaterfallLayout setHeaderInset:]
+-[CHTCollectionViewWaterfallLayout setFooterInset:]
+-[CHTCollectionViewWaterfallLayout setSectionInset:]
+-[CHTCollectionViewWaterfallLayout setItemRenderDirection:]
+-[CHTCollectionViewWaterfallLayout columnCountForSection:]
+-[CHTCollectionViewWaterfallLayout itemWidthInSectionAtIndex:]
+_CHTFloorCGFloat
+-[CHTCollectionViewWaterfallLayout headersAttribute]
+-[CHTCollectionViewWaterfallLayout footersAttribute]
+-[CHTCollectionViewWaterfallLayout unionRects]
+-[CHTCollectionViewWaterfallLayout columnHeights]
+-[CHTCollectionViewWaterfallLayout allItemAttributes]
+-[CHTCollectionViewWaterfallLayout sectionItemAttributes]
+-[CHTCollectionViewWaterfallLayout delegate]
+-[CHTCollectionViewWaterfallLayout commonInit]
+-[CHTCollectionViewWaterfallLayout init]
+-[CHTCollectionViewWaterfallLayout initWithCoder:]
+-[CHTCollectionViewWaterfallLayout prepareLayout]
+-[CHTCollectionViewWaterfallLayout collectionViewContentSize]
+-[CHTCollectionViewWaterfallLayout layoutAttributesForItemAtIndexPath:]
+-[CHTCollectionViewWaterfallLayout layoutAttributesForSupplementaryViewOfKind:atIndexPath:]
+-[CHTCollectionViewWaterfallLayout layoutAttributesForElementsInRect:]
+-[CHTCollectionViewWaterfallLayout shouldInvalidateLayoutForBoundsChange:]
+-[CHTCollectionViewWaterfallLayout shortestColumnIndexInSection:]
+___65-[CHTCollectionViewWaterfallLayout shortestColumnIndexInSection:]_block_invoke
+___copy_helper_block_
+___destroy_helper_block_
+-[CHTCollectionViewWaterfallLayout longestColumnIndexInSection:]
+___64-[CHTCollectionViewWaterfallLayout longestColumnIndexInSection:]_block_invoke
+___copy_helper_block_.145
+___destroy_helper_block_.146
+-[CHTCollectionViewWaterfallLayout nextColumnIndexForItem:inSection:]
+-[CHTCollectionViewWaterfallLayout columnCount]
+-[CHTCollectionViewWaterfallLayout minimumColumnSpacing]
+-[CHTCollectionViewWaterfallLayout minimumInteritemSpacing]
+-[CHTCollectionViewWaterfallLayout headerHeight]
+-[CHTCollectionViewWaterfallLayout footerHeight]
+-[CHTCollectionViewWaterfallLayout headerInset]
+-[CHTCollectionViewWaterfallLayout footerInset]
+-[CHTCollectionViewWaterfallLayout sectionInset]
+-[CHTCollectionViewWaterfallLayout itemRenderDirection]
+-[CHTCollectionViewWaterfallLayout minimumContentHeight]
+-[CHTCollectionViewWaterfallLayout setMinimumContentHeight:]
+-[CHTCollectionViewWaterfallLayout setDelegate:]
+-[CHTCollectionViewWaterfallLayout setColumnHeights:]
+-[CHTCollectionViewWaterfallLayout setSectionItemAttributes:]
+-[CHTCollectionViewWaterfallLayout setAllItemAttributes:]
+-[CHTCollectionViewWaterfallLayout setHeadersAttribute:]
+-[CHTCollectionViewWaterfallLayout setFootersAttribute:]
+-[CHTCollectionViewWaterfallLayout setUnionRects:]
+-[CHTCollectionViewWaterfallLayout .cxx_destruct]
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._columnCount
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._minimumColumnSpacing
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._minimumInteritemSpacing
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._headerHeight
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._footerHeight
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._headerInset
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._footerInset
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._sectionInset
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._itemRenderDirection
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._headersAttribute
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._footersAttribute
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._unionRects
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._columnHeights
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._allItemAttributes
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._sectionItemAttributes
+___block_descriptor_tmp
+___block_descriptor_tmp.147
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._minimumContentHeight
+_OBJC_IVAR_$_CHTCollectionViewWaterfallLayout._delegate
+Apple LLVM version 8.1.0 (clang-802.0.42)
+/Users/Otherplayer/Information/HNAGithubEmojis/Carthage/Checkouts/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.m
+/Users/Otherplayer/Information/HNAGithubEmojis/Carthage/Checkouts/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout
+/Users/Otherplayer/Information/HNAGithubEmojis/Carthage/Checkouts/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.h
+__destroy_helper_block_
+__copy_helper_block_
+__64-[CHTCollectionViewWaterfallLayout longestColumnIndexInSection:]_block_invoke
+__65-[CHTCollectionViewWaterfallLayout shortestColumnIndexInSection:]_block_invoke
+CGRectMake
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
+CHTFloorCGFloat
+__tg_floor
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include/tgmath.h
+UIEdgeInsetsEqualToEdgeInsets
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIGeometry.h
+/Users/Otherplayer/Library/Developer/Xcode/DerivedData/CHTCollectionViewWaterfallLayout-amomsqtmiujmizaicovmvuddymdu/Build/Intermediates/CHTCollectionViewWaterfallLayout.build/Release-iphoneos/CHTCollectionViewWaterfallLayout.build/DerivedSources/CHTCollectionViewWaterfallLayout_vers.c

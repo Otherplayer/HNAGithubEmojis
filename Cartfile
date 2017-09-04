@@ -1,1 +1,3 @@
 github "rs/SDWebImage"
+
+github "chiahsien/CHTCollectionViewWaterfallLayout"

@@ -14,6 +14,8 @@
 		63D91E9C1F5D202D001ACA37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63D91E9A1F5D202D001ACA37 /* LaunchScreen.storyboard */; };
 		63D91EA41F5D20BE001ACA37 /* HNACollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D91EA31F5D20BE001ACA37 /* HNACollectionViewCell.swift */; };
 		63D91EA71F5D24E4001ACA37 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D91EA61F5D24E4001ACA37 /* SDWebImage.framework */; };
+		63D91EAA1F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D91EA91F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework */; };
+		63D91EAC1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D91EAB1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		63D91E9D1F5D202D001ACA37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63D91EA31F5D20BE001ACA37 /* HNACollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNACollectionViewCell.swift; sourceTree = "<group>"; };
 		63D91EA61F5D24E4001ACA37 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
+		63D91EA91F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CHTCollectionViewWaterfallLayout.framework; path = Carthage/Build/iOS/CHTCollectionViewWaterfallLayout.framework; sourceTree = "<group>"; };
+		63D91EAB1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HNAWaterfallLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D91EAA1F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework in Frameworks */,
 				63D91EA71F5D24E4001ACA37 /* SDWebImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +72,7 @@
 				63D91E9A1F5D202D001ACA37 /* LaunchScreen.storyboard */,
 				63D91E9D1F5D202D001ACA37 /* Info.plist */,
 				63D91EA31F5D20BE001ACA37 /* HNACollectionViewCell.swift */,
+				63D91EAB1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift */,
 			);
 			path = HNAGithubEmojis;
 			sourceTree = "<group>";
@@ -74,6 +80,7 @@
 		63D91EA51F5D24E3001ACA37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D91EA91F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework */,
 				63D91EA61F5D24E4001ACA37 /* SDWebImage.framework */,
 			);
 			name = Frameworks;
@@ -156,9 +163,11 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SDWebImage.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CHTCollectionViewWaterfallLayout.framework",
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SDWebImage.framework",
+				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CHTCollectionViewWaterfallLayout.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -173,6 +182,7 @@
 			files = (
 				63D91EA41F5D20BE001ACA37 /* HNACollectionViewCell.swift in Sources */,
 				63D91E941F5D202D001ACA37 /* ViewController.swift in Sources */,
+				63D91EAC1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift in Sources */,
 				63D91E921F5D202D001ACA37 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

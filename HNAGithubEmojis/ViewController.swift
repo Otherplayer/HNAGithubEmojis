@@ -8,10 +8,23 @@
 
 import UIKit
 import SDWebImage
+import CHTCollectionViewWaterfallLayout
 
 let Identifier = "Identifier"
+let COLUMNCOUNT = 6
 
-class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDataSourcePrefetching {
+
+
+extension String {
+    func heightWithConstrained(width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        return boundingBox.height
+    }
+}
+
+
+class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDataSourcePrefetching,CHTCollectionViewDelegateWaterfallLayout {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,12 +36,20 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         
 //        self.collectionView.register(HNACollectionViewCell.self, forCellWithReuseIdentifier: Identifier)
         
+        let layout = HNAWaterfallLayout()
+        layout.columnCount = COLUMNCOUNT
+        layout.minimumColumnSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        collectionView.collectionViewLayout = layout
+        
         getData { (items) in
             self.datas = items as! [Dictionary<String, Any>]
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,16 +72,20 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         let data = self.datas[indexPath.row]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier, for: indexPath) as! HNACollectionViewCell
-        cell.backgroundColor = UIColor.lightGray
-        print(cell.imageView)
-        cell.titleLabel.text = data["name"] as? String
         
+        cell.titleLabel.text = data["name"] as? String
         cell.imageView.sd_setImage(with: URL.init(string: data["value"] as! String), completed: nil)
         
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]){
-//        NSLog("===== \(indexPaths)")
+        // NSLog("===== \(indexPaths)")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
+        let width = self.datas[indexPath.row]["width"] as! CGFloat
+        let height = self.datas[indexPath.row]["height"] as! CGFloat
+        return CGSize(width: width, height: height + width)
     }
     
     
@@ -70,14 +95,18 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         let task = URLSession.shared.dataTask(with: URL(string: "https://api.github.com/emojis")!) {
             (Data, URLResponse, Error) in
             
+            let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
+            let font = UIFont.systemFont(ofSize: 14)
             if let json = try? JSONSerialization.jsonObject(with: Data!, options: .allowFragments) as! [String : AnyObject] {
                 if JSONSerialization.isValidJSONObject(json) {
                     
                     var items = [Dictionary<String,Any>]()
                     for (name,value) in json {
-                        items.append(["name":name,"value":value])
+                        let height = name.heightWithConstrained(width: width, font: font)
+                        items.append(["name":name,"value":value,"height":height,"width":width])
                     }
                     completionHandler(items)
+                    
                 }
             }
         }
