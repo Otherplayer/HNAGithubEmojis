@@ -1,5 +1,5 @@
 
 
 /Carthage/Checkouts/**
-**/.bcsymbolmap
-**/.DS_Store
+/Carthage/Build/**/*.bcsymbolmap
+*.DS_Store
