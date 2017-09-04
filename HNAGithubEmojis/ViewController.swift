@@ -40,6 +40,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         layout.columnCount = COLUMNCOUNT
         layout.minimumColumnSpacing = 5
         layout.minimumInteritemSpacing = 5
+        layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
         collectionView.collectionViewLayout = layout
         
         getData { (items) in
