@@ -48,16 +48,18 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         /// 链式调用
-        fetchUrl().then { url in
-            return url + "/abcd"
-            }.then { (ss) in
-                print(ss)
-            }.always {
-                // do something
-        }
-        fetchUrl().then { urlStr in
-            return self.fetchEmojis(url: urlStr)
-            }.then { items -> Void in
+        fetchEmojis().then(execute: { json -> [EmojiModel] in
+                let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
+                let font = UIFont.systemFont(ofSize: 14)
+                var items = [Dictionary<String,Any>]()
+                for (name,value) in json as! [String : AnyObject] {
+                    let height = name.heightWithConstrained(width: width, font: font)
+                    items.append(["name":name,"value":value,"height":height,"width":width])
+                }
+                
+                let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
+                return emojisModel
+            }).then { items -> Void in
                 self.datas = items
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -66,8 +68,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             }.catch { error in
                 print(error)
         }
+        
+        fetchUrl().then { url in
+                return url + "/abcd"
+            }.then { (ss) in
+                print(ss)
+            }.always {
+                // do something
+        }
         fetch().then { result in
-            print("result\(result)")
+                print("result\(result)")
             }.always {
                 // do somthing
         }
@@ -145,23 +155,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         }
     }
     
-    func fetchEmojis(url urlStr: String) -> Promise <[EmojiModel]> {
-        let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
-        let font = UIFont.systemFont(ofSize: 14)
-//        let urlStr = "https://api.github.com/emojis"
-        
+    func fetchEmojis() -> Promise <Any> {
+        let urlStr = "https://api.github.com/emojis"
         return Promise { fulfill, reject in
             Alamofire.request(urlStr).responseJSON(completionHandler: { (res) in
                 switch res.result {
                 case .success(let json):
-                    var items = [Dictionary<String,Any>]()
-                    for (name,value) in json as! [String : AnyObject] {
-                        let height = name.heightWithConstrained(width: width, font: font)
-                        items.append(["name":name,"value":value,"height":height,"width":width])
-                    }
-                    
-                    let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
-                    fulfill(emojisModel)
+                    return fulfill(json)
                 case .failure(let error):
                     return reject(error)
 //                default:
