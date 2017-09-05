@@ -103,7 +103,6 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         let font = UIFont.systemFont(ofSize: 14)
         let urlStr = "https://api.github.com/emojis"
         
-        
         Alamofire.request(urlStr).responseJSON { (response) in
             debugPrint(response)
             switch response.result {
@@ -120,6 +119,11 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                 
             case .failure(let error):
                 print(error)
+                
+//                let alert = UIAlertController.init(title: "title", message: "msg", preferredStyle: .actionSheet)
+//                alert.promise().then { buttonIndex in
+//                    print("ok \(buttonIndex)")
+//                }
             }
         }
         
