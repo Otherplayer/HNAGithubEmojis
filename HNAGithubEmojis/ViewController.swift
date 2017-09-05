@@ -46,15 +46,29 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         collectionView.collectionViewLayout = layout
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        fetchEmojis().then { (items) -> Void in
-            self.datas = items
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }
-            }.catch { (err) in
-                print(err)
+        
+        /// 链式调用
+        fetchUrl().then { urlStr in
+            return self.fetchEmojis(url: urlStr)
+            }.then { items -> Void in
+                self.datas = items
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
+            }.catch { error in
+                print(error)
         }
+//        fetchEmojis().then { (items) -> Void in
+//            self.datas = items
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            }
+//            }.catch { (err) in
+//                print(err)
+//        }
+        
 //        getData { (items) in
 //            self.datas = items
 //            DispatchQueue.main.async {
@@ -103,12 +117,21 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     
     
-    //MARK: - Private methods
+    //MARK: - Datas fetch methods
+    func getDatas() {
+        
+    }
+    func fetchUrl() -> Promise<String> {
+        let urlStr = "https://api.github.com/emojis"
+        return Promise { fulfill, reject in
+            fulfill(urlStr)
+        }
+    }
     
-    func fetchEmojis() -> Promise<[EmojiModel]> {
+    func fetchEmojis(url urlStr: String) -> Promise <[EmojiModel]> {
         let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
         let font = UIFont.systemFont(ofSize: 14)
-        let urlStr = "https://api.github.com/emojis"
+//        let urlStr = "https://api.github.com/emojis"
         
         return Promise { fulfill, reject in
             Alamofire.request(urlStr).responseJSON(completionHandler: { (res) in
