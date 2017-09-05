@@ -1,3 +1,5 @@
-github "rs/SDWebImage"
 
+github "rs/SDWebImage"
 github "chiahsien/CHTCollectionViewWaterfallLayout"
+github "Alamofire/Alamofire"
+github "mxcl/PromiseKit"

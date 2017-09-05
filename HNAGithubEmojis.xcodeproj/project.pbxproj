@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		633668A31F5E742E00150278 /* EmojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633668A21F5E742E00150278 /* EmojiModel.swift */; };
+		63CFE7D01F5E51B300543DBB /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 63CFE7CF1F5E51B300543DBB /* README.md */; };
+		63CFE7D21F5E51C800543DBB /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 63CFE7D11F5E51C800543DBB /* Cartfile */; };
+		63CFE7D51F5E55F600543DBB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CFE7D31F5E55F600543DBB /* Alamofire.framework */; };
+		63CFE7D61F5E55F600543DBB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CFE7D41F5E55F600543DBB /* PromiseKit.framework */; };
 		63D91E921F5D202D001ACA37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D91E911F5D202D001ACA37 /* AppDelegate.swift */; };
 		63D91E941F5D202D001ACA37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D91E931F5D202D001ACA37 /* ViewController.swift */; };
 		63D91E971F5D202D001ACA37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63D91E951F5D202D001ACA37 /* Main.storyboard */; };
@@ -19,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		633668A21F5E742E00150278 /* EmojiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiModel.swift; sourceTree = "<group>"; };
+		63CFE7CF1F5E51B300543DBB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		63CFE7D11F5E51C800543DBB /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		63CFE7D31F5E55F600543DBB /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		63CFE7D41F5E55F600543DBB /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		63D91E8E1F5D202D001ACA37 /* HNAGithubEmojis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HNAGithubEmojis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D91E911F5D202D001ACA37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63D91E931F5D202D001ACA37 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CFE7D51F5E55F600543DBB /* Alamofire.framework in Frameworks */,
+				63CFE7D61F5E55F600543DBB /* PromiseKit.framework in Frameworks */,
 				63D91EAA1F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework in Frameworks */,
 				63D91EA71F5D24E4001ACA37 /* SDWebImage.framework in Frameworks */,
 			);
@@ -48,6 +60,8 @@
 		63D91E851F5D202D001ACA37 = {
 			isa = PBXGroup;
 			children = (
+				63CFE7D11F5E51C800543DBB /* Cartfile */,
+				63CFE7CF1F5E51B300543DBB /* README.md */,
 				63D91E901F5D202D001ACA37 /* HNAGithubEmojis */,
 				63D91E8F1F5D202D001ACA37 /* Products */,
 				63D91EA51F5D24E3001ACA37 /* Frameworks */,
@@ -73,6 +87,7 @@
 				63D91E9D1F5D202D001ACA37 /* Info.plist */,
 				63D91EA31F5D20BE001ACA37 /* HNACollectionViewCell.swift */,
 				63D91EAB1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift */,
+				633668A21F5E742E00150278 /* EmojiModel.swift */,
 			);
 			path = HNAGithubEmojis;
 			sourceTree = "<group>";
@@ -80,6 +95,8 @@
 		63D91EA51F5D24E3001ACA37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63CFE7D31F5E55F600543DBB /* Alamofire.framework */,
+				63CFE7D41F5E55F600543DBB /* PromiseKit.framework */,
 				63D91EA91F5D2E09001ACA37 /* CHTCollectionViewWaterfallLayout.framework */,
 				63D91EA61F5D24E4001ACA37 /* SDWebImage.framework */,
 			);
@@ -149,6 +166,7 @@
 			files = (
 				63D91E9C1F5D202D001ACA37 /* LaunchScreen.storyboard in Resources */,
 				63D91E991F5D202D001ACA37 /* Assets.xcassets in Resources */,
+				63CFE7D21F5E51C800543DBB /* Cartfile in Resources */,
 				63D91E971F5D202D001ACA37 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,10 +182,14 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SDWebImage.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CHTCollectionViewWaterfallLayout.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SDWebImage.framework",
 				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CHTCollectionViewWaterfallLayout.framework",
+				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Alamofire.framework",
+				"$(DERIVED_FILE_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PromiseKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -182,6 +204,8 @@
 			files = (
 				63D91EA41F5D20BE001ACA37 /* HNACollectionViewCell.swift in Sources */,
 				63D91E941F5D202D001ACA37 /* ViewController.swift in Sources */,
+				633668A31F5E742E00150278 /* EmojiModel.swift in Sources */,
+				63CFE7D01F5E51B300543DBB /* README.md in Sources */,
 				63D91EAC1F5D2E5F001ACA37 /* HNAWaterfallLayout.swift in Sources */,
 				63D91E921F5D202D001ACA37 /* AppDelegate.swift in Sources */,
 			);
@@ -357,6 +381,7 @@
 				63D91EA21F5D202D001ACA37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
