@@ -12,8 +12,8 @@ import CHTCollectionViewWaterfallLayout
 import Alamofire
 import PromiseKit
 
-let Identifier = "Identifier"
-let COLUMNCOUNT = 6
+private let Identifier = "Identifier"
+private let COLUMNCOUNT = 6
 
 
 
@@ -46,14 +46,22 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         collectionView.collectionViewLayout = layout
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        getData { (items) in
+        fetchEmojis().then { (items) -> Void in
             self.datas = items
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            }.catch { (err) in
+                print(err)
         }
-        
+//        getData { (items) in
+//            self.datas = items
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            }
+//        }
         
     }
 
@@ -97,11 +105,36 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     
     //MARK: - Private methods
     
+    func fetchEmojis() -> Promise<[EmojiModel]> {
+        let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
+        let font = UIFont.systemFont(ofSize: 14)
+        let urlStr = "https://api.github.com/emojis"
+        
+        return Promise { fulfill, reject in
+            Alamofire.request(urlStr).responseJSON(completionHandler: { (res) in
+                switch res.result {
+                case .success(let json):
+                    var items = [Dictionary<String,Any>]()
+                    for (name,value) in json as! [String : AnyObject] {
+                        let height = name.heightWithConstrained(width: width, font: font)
+                        items.append(["name":name,"value":value,"height":height,"width":width])
+                    }
+                    
+                    let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
+                    fulfill(emojisModel)
+                case .failure(let error):
+                    return reject(error)
+                }
+            })
+        }
+    }
+    
     func getData(completionHandler: @escaping (_ version : Array<EmojiModel>) -> Swift.Void) {
         
         let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
         let font = UIFont.systemFont(ofSize: 14)
         let urlStr = "https://api.github.com/emojis"
+        
         
         Alamofire.request(urlStr).responseJSON { (response) in
             debugPrint(response)
