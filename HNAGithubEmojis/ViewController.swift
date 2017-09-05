@@ -61,8 +61,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         }
         fetch().then { result in
             print("result\(result)")
-            }.catch { (error) in
-                print(error)
+            }.always {
+                // do somthing
         }
 //        fetchEmojis().then { (items) -> Void in
 //            self.datas = items
