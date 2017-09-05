@@ -48,6 +48,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         /// 链式调用
+        fetchUrl().then { url in
+            return url + "/abcd"
+            }.then { (ss) in
+                print(ss)
+            }.always {
+                // do something
+        }
         fetchUrl().then { urlStr in
             return self.fetchEmojis(url: urlStr)
             }.then { items -> Void in
