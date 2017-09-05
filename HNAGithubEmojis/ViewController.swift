@@ -59,6 +59,9 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             }.catch { error in
                 print(error)
         }
+        fetch().then { result in
+            print("result\(result)")
+        }
 //        fetchEmojis().then { (items) -> Void in
 //            self.datas = items
 //            DispatchQueue.main.async {
@@ -116,11 +119,16 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         return CGSize(width: width, height: height + width)
     }
     
+    //MARK: - PromiseKit
+    func fetch(completion: (String) -> Void) {
+        completion("callback exe")
+    }
+    func fetch() -> Promise<String> {
+        return PromiseKit.wrap(fetch)
+    }
     
     //MARK: - Datas fetch methods
-    func getDatas() {
-        
-    }
+    
     func fetchUrl() -> Promise<String> {
         let urlStr = "https://api.github.com/emojis"
         return Promise { fulfill, reject in
@@ -147,6 +155,8 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
                     fulfill(emojisModel)
                 case .failure(let error):
                     return reject(error)
+//                default:
+//                    return reject(PMKError.invalidCallingConvention)
                 }
             })
         }
