@@ -1,5 +1,3 @@
-
-
 /Carthage/Checkouts/**
 /Carthage/Build/**/*.bcsymbolmap
 *.DS_Store
