@@ -145,6 +145,13 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func fetch() -> Promise<String> {
         return PromiseKit.wrap(fetch)
     }
+//    /*public typealias os_block_t = () -> Swift.Void*/
+//    func fetch(completion: os_block_t) {
+//        completion()
+//    }
+//    func fetch() -> Promise<Void> {
+//        return PromiseKit.wrap(fetch)
+//    }
     
     //MARK: - Datas fetch methods
     
