@@ -81,6 +81,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
             }.always {
                 // do somthing
         }
+        
 //        fetchEmojis().then { (items) -> Void in
 //            self.datas = items
 //            DispatchQueue.main.async {
