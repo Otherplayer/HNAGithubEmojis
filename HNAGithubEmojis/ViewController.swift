@@ -14,13 +14,13 @@ import PromiseKit
 
 private let Identifier = "Identifier"
 private let COLUMNCOUNT = 6
-
+private let EMOJI_URL = "https://api.github.com/emojis"
 
 
 extension String {
     func heightWithConstrained(width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
         return boundingBox.height
     }
 }
@@ -48,39 +48,26 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         /// 链式调用
-        fetchEmojis().then(execute: { json -> [EmojiModel] in
-                let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
-                let font = UIFont.systemFont(ofSize: 14)
-                var items = [Dictionary<String,Any>]()
-                for (name,value) in json as! [String : AnyObject] {
-                    let height = name.heightWithConstrained(width: width, font: font)
-                    items.append(["name":name,"value":value,"height":height,"width":width])
-                }
-                
-                let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
-                return emojisModel
-            }).then { items -> Void in
-                self.datas = items
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-            }.catch { error in
-                print(error)
-        }
-        
-        fetchUrl().then { url in
-                return url + "/abcd"
-            }.then { (ss) in
-                print(ss)
-            }.always {
-                // do something
-        }
-        fetch().then { result in
-                print("result\(result)")
-            }.always {
-                // do somthing
-        }
+//        fetchEmojis().then(execute: { json -> [EmojiModel] in
+//                let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
+//                let font = UIFont.systemFont(ofSize: 14)
+//                var items = [Dictionary<String,Any>]()
+//                for (name,value) in json as! [String : AnyObject] {
+//                    let height = name.heightWithConstrained(width: width, font: font)
+//                    items.append(["name":name,"value":value,"height":height,"width":width])
+//                }
+//
+//                let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
+//                return emojisModel
+//            }).then { items -> Void in
+//                self.datas = items
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//                }
+//            }.catch { error in
+//                print(error)
+//        }
         
 //        fetchEmojis().then { (items) -> Void in
 //            self.datas = items
@@ -92,13 +79,14 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
 //                print(err)
 //        }
         
-//        getData { (items) in
-//            self.datas = items
-//            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//            }
-//        }
+        // 正常方式
+        fetchData { (items) in
+            self.datas = items
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+        }
         
     }
 
@@ -109,7 +97,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     
     
     
-    //MARK: -
+    //MARK: - <UICollectionViewDataSource,UICollectionViewDelegate>
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         NSLog("Cell at : \(indexPath.row) was selected")
@@ -139,54 +127,35 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         return CGSize(width: width, height: height + width)
     }
     
-    //MARK: - PromiseKit
-    func fetch(completion: (String) -> Void) {
-        completion("callback exe")
-    }
-    func fetch() -> Promise<String> {
-        return PromiseKit.wrap(fetch)
-    }
-//    /*public typealias os_block_t = () -> Swift.Void*/
-//    func fetch(completion: os_block_t) {
-//        completion()
-//    }
-//    func fetch() -> Promise<Void> {
-//        return PromiseKit.wrap(fetch)
-//    }
     
     //MARK: - Datas fetch methods
-    
-    func fetchUrl() -> Promise<String> {
-        let urlStr = "https://api.github.com/emojis"
-        return Promise { fulfill, reject in
-            fulfill(urlStr)
-        }
+    func fetchUrl() -> Promise <String> {
+        let urlStr = EMOJI_URL
+        return Promise(resolver: { seal in
+            seal.resolve(urlStr, nil)
+        })
     }
     
     func fetchEmojis() -> Promise <Any> {
-        let urlStr = "https://api.github.com/emojis"
-        return Promise { fulfill, reject in
-            Alamofire.request(urlStr).responseJSON(completionHandler: { (res) in
+        return Promise(resolver: { seal in
+            Alamofire.request(EMOJI_URL).responseJSON(completionHandler: { (res) in
                 switch res.result {
                 case .success(let json):
-                    return fulfill(json)
+                    return seal.resolve(json,nil)
                 case .failure(let error):
-                    return reject(error)
-//                default:
-//                    return reject(PMKError.invalidCallingConvention)
+                    return seal.resolve(nil,error)
                 }
             })
-        }
+        })
     }
     
-    func getData(completionHandler: @escaping (_ version : Array<EmojiModel>) -> Swift.Void) {
+    func fetchData(completionHandler: @escaping (_ version : Array<EmojiModel>) -> Swift.Void) {
         
         let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
         let font = UIFont.systemFont(ofSize: 14)
-        let urlStr = "https://api.github.com/emojis"
         
         
-        Alamofire.request(urlStr).responseJSON { (response) in
+        Alamofire.request(EMOJI_URL).responseJSON { (response) in
             debugPrint(response)
             switch response.result {
             case .success(let json):
