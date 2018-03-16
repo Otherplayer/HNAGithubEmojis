@@ -26,7 +26,11 @@ extension String {
 }
 
 
-class ViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDataSourcePrefetching,CHTCollectionViewDelegateWaterfallLayout {
+class ViewController: UIViewController,
+UICollectionViewDataSource,
+UICollectionViewDelegate,
+UICollectionViewDataSourcePrefetching,
+CHTCollectionViewDelegateWaterfallLayout {
 
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -36,7 +40,7 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//        self.collectionView.register(HNACollectionViewCell.self, forCellWithReuseIdentifier: Identifier)
+        // self.collectionView.register(HNACollectionViewCell.self, forCellWithReuseIdentifier: Identifier)
         
         let layout = HNAWaterfallLayout()
         layout.columnCount = COLUMNCOUNT
@@ -47,46 +51,26 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        /// 链式调用
-//        fetchEmojis().then(execute: { json -> [EmojiModel] in
-//                let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
-//                let font = UIFont.systemFont(ofSize: 14)
-//                var items = [Dictionary<String,Any>]()
-//                for (name,value) in json as! [String : AnyObject] {
-//                    let height = name.heightWithConstrained(width: width, font: font)
-//                    items.append(["name":name,"value":value,"height":height,"width":width])
-//                }
-//
-//                let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
-//                return emojisModel
-//            }).then { items -> Void in
-//                self.datas = items
-//                DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
-//                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//                }
-//            }.catch { error in
-//                print(error)
-//        }
-        
-//        fetchEmojis().then { (items) -> Void in
-//            self.datas = items
+//        //** 正常方式*/
+//        fetchData { (rstInfo) in
+//            self.datas = self.dealData(rstInfo);
 //            DispatchQueue.main.async {
 //                self.collectionView.reloadData()
 //                UIApplication.shared.isNetworkActivityIndicatorVisible = false
 //            }
-//            }.catch { (err) in
-//                print(err)
 //        }
         
-        // 正常方式
-        fetchData { (items) in
-            self.datas = items
+        //** 链式调用*/
+        fetchEmojis().done { (rstInfo) in
+            self.datas = self.dealData(rstInfo);
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            }.catch { (error) in
+                self.showAlert(error.localizedDescription)
         }
+
         
     }
 
@@ -119,7 +103,6 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]){
         // NSLog("===== \(indexPaths)")
     }
-    
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
         let data = self.datas[indexPath.row]
         let width = data.width
@@ -128,20 +111,44 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
     }
     
     
-    //MARK: - Datas fetch methods
-    func fetchUrl() -> Promise <String> {
-        let urlStr = EMOJI_URL
-        return Promise(resolver: { seal in
-            seal.resolve(urlStr, nil)
-        })
+    //MARK: - Private
+    
+    func dealData(_ json: Dictionary<String,Any>) -> Array<EmojiModel> {
+        let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
+        let font = UIFont.systemFont(ofSize: 14)
+        var items = [Dictionary<String,Any>]()
+        
+        for (name,value) in json {
+            let height = name.heightWithConstrained(width: width, font: font)
+            items.append(["name":name,"value":value,"height":height,"width":width])
+        }
+        
+        let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
+        return emojisModel
     }
     
-    func fetchEmojis() -> Promise <Any> {
+    func showAlert(_ msg: String) {
+        let alert = UIAlertController.init(title: "title", message: msg, preferredStyle: .alert)
+        let confirmAction = UIAlertAction.init(title: "确定", style: .cancel, handler: nil)
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Datas fetch methods
+    
+    func fetchUrl() -> Promise <String> {
+        let urlStr = EMOJI_URL
+        return Promise { seal in
+             seal.resolve(urlStr, nil)
+        }
+    }
+    
+    func fetchEmojis() -> Promise <Dictionary<String, Any>> {
         return Promise(resolver: { seal in
             Alamofire.request(EMOJI_URL).responseJSON(completionHandler: { (res) in
                 switch res.result {
                 case .success(let json):
-                    return seal.resolve(json,nil)
+                    return seal.resolve(json as! Dictionary,nil)
                 case .failure(let error):
                     return seal.resolve(nil,error)
                 }
@@ -149,95 +156,51 @@ class ViewController: UIViewController,UICollectionViewDataSource,UICollectionVi
         })
     }
     
-    func fetchData(completionHandler: @escaping (_ version : Array<EmojiModel>) -> Swift.Void) {
+    func fetchData(completionHandler: @escaping (_ rstInfo : Dictionary<String, Any>) -> Swift.Void) {
         
-        let width = ( UIScreen.main.bounds.width - CGFloat((COLUMNCOUNT + 1) * 5) ) / CGFloat(COLUMNCOUNT)
-        let font = UIFont.systemFont(ofSize: 14)
-        
-        
+        /*** 方法1*/
         Alamofire.request(EMOJI_URL).responseJSON { (response) in
-            debugPrint(response)
+            debugPrint("All Response Info: \(response)")
             switch response.result {
             case .success(let json):
-                var items = [Dictionary<String,Any>]()
-                for (name,value) in json as! [String : AnyObject] {
-                    let height = name.heightWithConstrained(width: width, font: font)
-                    items.append(["name":name,"value":value,"height":height,"width":width])
-                }
-                
-                let emojisModel:[EmojiModel] = items.map({EmojiModel($0)})
-                
-                completionHandler(emojisModel)
-                
+                completionHandler(json as! Dictionary)
             case .failure(let error):
-                print(error)
-                
-//                let alert = UIAlertController.init(title: "title", message: "msg", preferredStyle: .actionSheet)
-//                alert.promise().then { buttonIndex in
-//                    print("ok \(buttonIndex)")
-//                }
+                self.showAlert(error.localizedDescription)
             }
         }
         
-        /*** 方法1*/
-//        Alamofire.request(urlStr).responseData { response in
+//        /*** 方法2*/
+//        Alamofire.request(EMOJI_URL).responseJSON { (response) in
 //            debugPrint("All Response Info: \(response)")
-//            if let data = response.result.value, let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : AnyObject] {
-//                if JSONSerialization.isValidJSONObject(json) {
-//                    var items = [Dictionary<String,Any>]()
-//                    for (name,value) in json {
-//                        let height = name.heightWithConstrained(width: width, font: font)
-//                        items.append(["name":name,"value":value,"height":height,"width":width])
-//                    }
-//                    completionHandler(items)
-//                }
-//            }
-//        }
-        
-//        Alamofire.request(urlStr).responseJSON { (response) in
-//            debugPrint(response)
 //            if let json = response.result.value {
-//                print("JSON: \(json)")
-//                var items = [Dictionary<String,Any>]()
-//                for (name,value) in json as! [String : AnyObject] {
-//                    let height = name.heightWithConstrained(width: width, font: font)
-//                    items.append(["name":name,"value":value,"height":height,"width":width])
-//                }
-//                completionHandler(items)
+//                completionHandler(json as! Dictionary<String, Any>)
 //            }
+//            //error ...
 //        }
         
+//        /*** 方法3*/
+//        Alamofire.request(EMOJI_URL).responseData { response in
+//            debugPrint("All Response Info: \(response)")
+//            if let data = response.result.value, let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
+//                if JSONSerialization.isValidJSONObject(json) {
+//                    completionHandler(json as! Dictionary)
+//                }
+//            }
+//            //error ...
+//        }
         
-        
-        /*** 方法2*/
-//        let task = URLSession.shared.dataTask(with: URL(string: urlStr)!) {
+//        /*** 方法4*/
+//        let task = URLSession.shared.dataTask(with: URL(string: EMOJI_URL)!) {
 //            (Data, URLResponse, Error) in
-//
 //            if let json = try? JSONSerialization.jsonObject(with: Data!, options: .allowFragments) as! [String : AnyObject] {
 //                if JSONSerialization.isValidJSONObject(json) {
-//
-//                    var items = [Dictionary<String,Any>]()
-//                    for (name,value) in json {
-//                        let height = name.heightWithConstrained(width: width, font: font)
-//                        items.append(["name":name,"value":value,"height":height,"width":width])
-//                    }
-//                    completionHandler(items)
-//
+//                    completionHandler(json)
 //                }
 //            }
 //        }
 //        task.resume()
         
-        
     }
     
-    
-    
-    
-    
-    
-    
-
-
 }
 
