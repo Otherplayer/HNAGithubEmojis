@@ -63,6 +63,7 @@ CHTCollectionViewDelegateWaterfallLayout {
         //** 链式调用*/
         fetchEmojis().done { (rstInfo) in
             self.datas = self.dealData(rstInfo);
+            // https://stackoverflow.com/questions/44324595/difference-between-dispatchqueue-main-async-and-dispatchqueue-main-sync
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
